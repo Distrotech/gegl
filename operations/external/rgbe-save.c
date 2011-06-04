@@ -41,7 +41,8 @@ static const gchar *FORMAT = "RGB float";
 static gboolean
 gegl_rgbe_save_process (GeglOperation       *operation,
                         GeglBuffer          *input,
-                        const GeglRectangle *rect)
+                        const GeglRectangle *rect,
+                        gint                 level)
 {
   GeglChantO *o       = GEGL_CHANT_PROPERTIES (operation);
   gfloat     *pixels  = NULL;

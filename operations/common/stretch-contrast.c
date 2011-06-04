@@ -33,7 +33,8 @@ static gboolean
 inner_process (gdouble  min,
                gdouble  max,
                gfloat  *buf,
-               gint     n_pixels)
+               gint     n_pixels,
+               gint     level)
 {
   gint o;
 
@@ -100,7 +101,8 @@ static gboolean
 process (GeglOperation       *operation,
          GeglBuffer          *input,
          GeglBuffer          *output,
-         const GeglRectangle *result)
+         const GeglRectangle *result,
+         gint                 level)
 {
   gdouble  min, max;
 
@@ -124,7 +126,7 @@ process (GeglOperation       *operation,
         line.height = chunk;
 
         gegl_buffer_get (input, 1.0, &line, babl_format ("RGBA float"), buf, GEGL_AUTO_ROWSTRIDE);
-        inner_process (min, max, buf, result->width  * chunk);
+        inner_process (min, max, buf, result->width  * chunk, level);
         gegl_buffer_set (output, &line, babl_format ("RGBA float"), buf,
                          GEGL_AUTO_ROWSTRIDE);
         consumed+=chunk;

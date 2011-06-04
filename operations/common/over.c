@@ -41,12 +41,13 @@ static void prepare (GeglOperation *operation)
 }
 
 static gboolean
-process (GeglOperation        *op,
-          void                *in_buf,
-          void                *aux_buf,
-          void                *out_buf,
-          glong                n_pixels,
-          const GeglRectangle *roi)
+process (GeglOperation       *op,
+         void                *in_buf,
+         void                *aux_buf,
+         void                *out_buf,
+         glong                n_pixels,
+         const GeglRectangle *roi,
+         gint                 level)
 {
   gint i;
   gfloat * GEGL_ALIGNED in = in_buf;

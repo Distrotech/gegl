@@ -120,7 +120,8 @@ static gboolean
 process (GeglOperation       *operation,
          GeglBuffer          *input,
          GeglBuffer          *output,
-         const GeglRectangle *result)
+         const GeglRectangle *result,
+         gint                 level)
 {
   GeglChantO   *o = GEGL_CHANT_PROPERTIES (operation);
   GeglRectangle compute = gegl_operation_get_required_for_output (operation, "input", result);

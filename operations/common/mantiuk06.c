@@ -1576,9 +1576,10 @@ mantiuk06_get_cached_region (GeglOperation        *operation,
 
 static gboolean
 mantiuk06_process (GeglOperation       *operation,
-                    GeglBuffer          *input,
-                    GeglBuffer          *output,
-                    const GeglRectangle *result)
+                   GeglBuffer          *input,
+                   GeglBuffer          *output,
+                   const GeglRectangle *result,
+                   gint                 level)
 {
   const GeglChantO *o          = GEGL_CHANT_PROPERTIES (operation);
   const gint        pix_stride = 4; /* RGBA */

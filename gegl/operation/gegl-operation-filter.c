@@ -179,10 +179,10 @@ set_property (GObject      *object,
 }
 
 static gboolean
-gegl_operation_filter_process (GeglOperation   *operation,
+gegl_operation_filter_process (GeglOperation        *operation,
                                GeglOperationContext *context,
-                               const gchar     *output_prop,
-                               const GeglRectangle *result)
+                               const gchar          *output_prop,
+                               const GeglRectangle  *result)
 {
   GeglOperationFilterClass *klass;
   GeglBuffer               *input;
@@ -202,7 +202,7 @@ gegl_operation_filter_process (GeglOperation   *operation,
   input  = gegl_operation_context_get_source (context, "input");
   output = gegl_operation_context_get_target (context, "output");
 
-  success = klass->process (operation, input, output, result);
+  success = klass->process (operation, input, output, result, context->level);
 
   if (output == GEGL_BUFFER (operation->node->cache))
     gegl_cache_computed (operation->node->cache, result);

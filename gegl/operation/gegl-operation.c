@@ -105,10 +105,10 @@ void gegl_node_emit_computed (GeglNode *node, const GeglRectangle *rect);
 
 
 gboolean
-gegl_operation_process (GeglOperation       *operation,
-                        GeglOperationContext     *context,
-                        const gchar         *output_pad,
-                        const GeglRectangle *result)
+gegl_operation_process (GeglOperation        *operation,
+                        GeglOperationContext *context,
+                        const gchar          *output_pad,
+                        const GeglRectangle  *result)
 {
   GeglOperationClass  *klass;
 

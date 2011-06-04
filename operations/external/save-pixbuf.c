@@ -39,7 +39,8 @@ gegl_chant_pointer (pixbuf, _("Pixbuf location"),
 static gboolean
 process (GeglOperation       *operation,
          GeglBuffer          *input,
-         const GeglRectangle *result)
+         const GeglRectangle *result,
+         gint                 level)
 {
   GeglChantO *o = GEGL_CHANT_PROPERTIES (operation);
 

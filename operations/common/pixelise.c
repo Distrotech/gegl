@@ -134,7 +134,8 @@ static gboolean
 process (GeglOperation       *operation,
          GeglBuffer          *input,
          GeglBuffer          *output,
-         const GeglRectangle *roi)
+         const GeglRectangle *roi,
+         gint                 level)
 {
   GeglRectangle src_rect;
   GeglChantO *o = GEGL_CHANT_PROPERTIES (operation);

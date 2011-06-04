@@ -55,8 +55,8 @@ struct _GeglOperationPointComposerClass
                         void                *aux,
                         void                *out,
                         glong                samples, /* number of samples   */
-                        const GeglRectangle *roi      /* rectangular region in output buffer */
-                        );
+                        const GeglRectangle *roi,     /* rectangular region in output buffer */
+                        gint                 level);
 
   cl_int   (* cl_process) (GeglOperation      *self,
                            cl_mem             in_tex,

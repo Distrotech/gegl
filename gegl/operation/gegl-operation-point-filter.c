@@ -39,7 +39,8 @@ static gboolean gegl_operation_point_filter_process
                               (GeglOperation       *operation,
                                GeglBuffer          *input,
                                GeglBuffer          *output,
-                               const GeglRectangle *result);
+                               const GeglRectangle *result,
+                               gint                 level);
 
 static gboolean gegl_operation_point_filter_op_process
                               (GeglOperation       *operation,
@@ -131,7 +132,8 @@ static gboolean
 gegl_operation_point_filter_process (GeglOperation       *operation,
                                      GeglBuffer          *input,
                                      GeglBuffer          *output,
-                                     const GeglRectangle *result)
+                                     const GeglRectangle *result,
+                                     gint                 level)
 {
   const Babl *in_format  = gegl_operation_get_format (operation, "input");
   const Babl *out_format = gegl_operation_get_format (operation, "output");
@@ -154,7 +156,7 @@ gegl_operation_point_filter_process (GeglOperation       *operation,
          * readwrite indice would be sufficient
          */
           while (gegl_buffer_iterator_next (i))
-            point_filter_class->process (operation, i->data[read], i->data[0], i->length, &i->roi[0]);
+            point_filter_class->process (operation, i->data[read], i->data[0], i->length, &i->roi[0], level);
       }
     }
   return TRUE;
@@ -203,7 +205,7 @@ static gboolean gegl_operation_point_filter_op_process
       output = gegl_operation_context_get_target (context, "output");
     }
 
-  success = gegl_operation_point_filter_process (operation, input, output, roi);
+  success = gegl_operation_point_filter_process (operation, input, output, roi, context->level);
   if (output == GEGL_BUFFER (operation->node->cache))
     gegl_cache_computed (operation->node->cache, roi);
 

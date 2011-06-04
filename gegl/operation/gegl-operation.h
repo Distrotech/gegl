@@ -183,8 +183,8 @@ void            gegl_operation_attach        (GeglOperation *operation,
 void            gegl_operation_prepare       (GeglOperation *operation);
 gboolean        gegl_operation_process       (GeglOperation *operation,
                                               GeglOperationContext *context,
-                                              const gchar   *output_pad,
-                                              const GeglRectangle *roi);
+                                              const gchar          *output_pad,
+                                              const GeglRectangle  *roi);
 
 /* create a pad for a specified property for this operation, this method is
  * to be called from the attach method of operations, most operations do not

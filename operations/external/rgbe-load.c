@@ -72,7 +72,8 @@ cleanup:
 static gboolean
 gegl_rgbe_load_process (GeglOperation       *operation,
                         GeglBuffer          *output,
-                        const GeglRectangle *result)
+                        const GeglRectangle *result,
+                        gint                 level)
 {
   GeglChantO       *o       = GEGL_CHANT_PROPERTIES (operation);
   gboolean          success = FALSE;

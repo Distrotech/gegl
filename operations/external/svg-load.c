@@ -196,7 +196,8 @@ get_bounding_box (GeglOperation *operation)
 static gboolean
 process (GeglOperation       *operation,
          GeglBuffer          *output,
-         const GeglRectangle *result_foo)
+         const GeglRectangle *result_foo,
+         gint                 level)
 {
   GeglChantO *o = GEGL_CHANT_PROPERTIES (operation);
   gint        result;

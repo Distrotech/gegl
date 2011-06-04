@@ -35,7 +35,8 @@ static gboolean gegl_operation_point_composer3_process
                                GeglBuffer          *aux,
                                GeglBuffer          *aux2,
                                GeglBuffer          *output,
-                               const GeglRectangle *result);
+                               const GeglRectangle *result,
+                               gint                 level);
 
 static gboolean
 gegl_operation_composer3_process2 (GeglOperation        *operation,
@@ -119,7 +120,7 @@ gegl_operation_composer3_process2 (GeglOperation        *operation,
       success = done;
       if (!done)
         {
-          success = klass->process (operation, input, aux, aux2, output, result);
+          success = klass->process (operation, input, aux, aux2, output, result, context->level);
 
           if (output == GEGL_BUFFER (operation->node->cache))
             gegl_cache_computed (operation->node->cache, result);
@@ -146,7 +147,8 @@ gegl_operation_point_composer3_process (GeglOperation       *operation,
                                         GeglBuffer          *aux,
                                         GeglBuffer          *aux2,
                                         GeglBuffer          *output,
-                                        const GeglRectangle *result)
+                                        const GeglRectangle *result,
+                                        gint                 level)
 {
   GeglOperationPointComposer3Class *point_composer3_class = GEGL_OPERATION_POINT_COMPOSER3_GET_CLASS (operation);
   const Babl *in_format   = gegl_operation_get_format (operation, "input");
@@ -168,14 +170,14 @@ gegl_operation_point_composer3_process (GeglOperation       *operation,
 
               while (gegl_buffer_iterator_next (i))
                 {
-                   point_composer3_class->process (operation, i->data[read], i->data[foo], i->data[bar], i->data[0], i->length, &(i->roi[0]));
+                   point_composer3_class->process (operation, i->data[read], i->data[foo], i->data[bar], i->data[0], i->length, &(i->roi[0]), level);
                 }
             }
           else
             {
               while (gegl_buffer_iterator_next (i))
                 {
-                   point_composer3_class->process (operation, i->data[read], i->data[foo], NULL, i->data[0], i->length, &(i->roi[0]));
+                   point_composer3_class->process (operation, i->data[read], i->data[foo], NULL, i->data[0], i->length, &(i->roi[0]), level);
                 }
             }
         }
@@ -186,14 +188,14 @@ gegl_operation_point_composer3_process (GeglOperation       *operation,
               gint bar = gegl_buffer_iterator_add (i, aux2,  result, aux2_format, GEGL_BUFFER_READ);
               while (gegl_buffer_iterator_next (i))
                 {
-                   point_composer3_class->process (operation, i->data[read], NULL, i->data[bar], i->data[0], i->length, &(i->roi[0]));
+                   point_composer3_class->process (operation, i->data[read], NULL, i->data[bar], i->data[0], i->length, &(i->roi[0]), level);
                 }
             }
           else
             {
               while (gegl_buffer_iterator_next (i))
                 {
-                   point_composer3_class->process (operation, i->data[read], NULL, NULL, i->data[0], i->length, &(i->roi[0]));
+                   point_composer3_class->process (operation, i->data[read], NULL, NULL, i->data[0], i->length, &(i->roi[0]), level);
                 }
             }
         }

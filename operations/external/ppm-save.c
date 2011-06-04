@@ -115,7 +115,8 @@ ppm_save_write(FILE    *fp,
 static gboolean
 process (GeglOperation       *operation,
          GeglBuffer          *input,
-         const GeglRectangle *rect)
+         const GeglRectangle *rect,
+         gint                 level)
 {
   GeglChantO *o = GEGL_CHANT_PROPERTIES (operation);
 

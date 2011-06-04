@@ -784,8 +784,7 @@ gegl_processor_work (GeglProcessor *processor,
       gegl_operation_process (processor->node->operation,
                               processor->context,
                               "output"  /* ignored output_pad */,
-                              &processor->context->result_rect
-                              );
+                              &processor->context->result_rect);
       gegl_node_remove_context (processor->node, cache);
       processor->context = NULL;
 

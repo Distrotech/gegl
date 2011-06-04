@@ -35,13 +35,14 @@ static gboolean gegl_operation_point_composer_process
                                GeglBuffer          *input,
                                GeglBuffer          *aux,
                                GeglBuffer          *output,
-                               const GeglRectangle *result);
+                               const GeglRectangle *result,
+                               gint                 level);
 
 static gboolean
-gegl_operation_composer_process2 (GeglOperation       *operation,
-                        GeglOperationContext     *context,
-                        const gchar         *output_prop,
-                        const GeglRectangle *result);
+gegl_operation_composer_process2 (GeglOperation        *operation,
+                                  GeglOperationContext *context,
+                                  const gchar          *output_prop,
+                                  const GeglRectangle  *result);
 
 G_DEFINE_TYPE (GeglOperationPointComposer, gegl_operation_point_composer, GEGL_TYPE_OPERATION_COMPOSER)
 
@@ -121,7 +122,7 @@ gegl_operation_composer_process2 (GeglOperation        *operation,
       success = done;
       if (!done)
         {
-          success = klass->process (operation, input, aux, output, result);
+          success = klass->process (operation, input, aux, output, result, context->level);
 
           if (output == GEGL_BUFFER (operation->node->cache))
             gegl_cache_computed (operation->node->cache, result);
@@ -212,7 +213,8 @@ gegl_operation_point_composer_process (GeglOperation       *operation,
                                        GeglBuffer          *input,
                                        GeglBuffer          *aux,
                                        GeglBuffer          *output,
-                                       const GeglRectangle *result)
+                                       const GeglRectangle *result,
+                                       gint                 level)
 {
   GeglOperationPointComposerClass *point_composer_class = GEGL_OPERATION_POINT_COMPOSER_GET_CLASS (operation);
   const Babl *in_format  = gegl_operation_get_format (operation, "input");
@@ -225,6 +227,20 @@ gegl_operation_point_composer_process (GeglOperation       *operation,
         {
           if (gegl_operation_point_composer_cl_process (operation, input, aux, output, result))
             return TRUE;
+          /* XXX: this probably wrong when iterating on a different level */
+          gint foo = gegl_buffer_iterator_add (i, aux,  result, aux_format, GEGL_BUFFER_READ);
+
+          while (gegl_buffer_iterator_next (i))
+            {
+               point_composer_class->process (operation, i->data[read], i->data[foo], i->data[0], i->length, &(i->roi[0]), level);
+            }
+        }
+      else
+        {
+          while (gegl_buffer_iterator_next (i))
+            {
+               point_composer_class->process (operation, i->data[read], NULL, i->data[0], i->length, &(i->roi[0]), level);
+            }
         }
 
       {

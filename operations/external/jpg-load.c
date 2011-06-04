@@ -167,7 +167,8 @@ gegl_jpg_load_get_bounding_box (GeglOperation *operation)
 static gboolean
 gegl_jpg_load_process (GeglOperation       *operation,
                        GeglBuffer          *output,
-                       const GeglRectangle *result)
+                       const GeglRectangle *result,
+                       gint                 level)
 {
   GeglChantO *o = GEGL_CHANT_PROPERTIES (operation);
   GeglRectangle        rect={0,0};

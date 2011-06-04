@@ -170,7 +170,8 @@ static void text_layout_text (GeglChant *self,
 static gboolean
 process (GeglOperation       *operation,
          GeglBuffer          *output,
-         const GeglRectangle *result)
+         const GeglRectangle *result,
+         gint                 level)
 {
   GeglChant *self = GEGL_CHANT (operation);
 

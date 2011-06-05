@@ -92,11 +92,13 @@ static gboolean      gegl_affine_matrix3_allow_fast_reflect_y      (GeglMatrix3 
 static void          gegl_affine_fast_reflect_x            (GeglBuffer           *dest,
                                                             GeglBuffer           *src,
                                                             const GeglRectangle  *dest_rect,
-                                                            const GeglRectangle  *src_rect);
+                                                            const GeglRectangle  *src_rect,
+                                                            gint                  level);
 static void          gegl_affine_fast_reflect_y            (GeglBuffer           *dest,
                                                             GeglBuffer           *src,
                                                             const GeglRectangle  *dest_rect,
-                                                            const GeglRectangle  *src_rect);
+                                                            const GeglRectangle  *src_rect,
+                                                            gint                  level);
 
 
 /* ************************* */
@@ -647,7 +649,8 @@ static void
 affine_generic (GeglBuffer  *dest,
                 GeglBuffer  *src,
                 GeglMatrix3 *matrix,
-                GeglSampler *sampler)
+                GeglSampler *sampler,
+                gint         level)
 {
   GeglBufferIterator *i;
   const GeglRectangle *dest_extent;
@@ -677,7 +680,7 @@ affine_generic (GeglBuffer  *dest,
   dest_extent = gegl_buffer_get_extent (dest);
 
 
-  i = gegl_buffer_iterator_new (dest, dest_extent, format, GEGL_BUFFER_WRITE);
+  i = gegl_buffer_iterator_new (dest, dest_extent, format, GEGL_BUFFER_WRITE, level);
   while (gegl_buffer_iterator_next (i))
     {
       GeglRectangle *roi = &i->roi[0];
@@ -762,7 +765,8 @@ static void
 gegl_affine_fast_reflect_x (GeglBuffer              *dest,
                             GeglBuffer              *src,
                             const GeglRectangle     *dest_rect,
-                            const GeglRectangle     *src_rect)
+                            const GeglRectangle     *src_rect,
+                            gint                     level)
 {
   const Babl              *format = gegl_buffer_get_format (src);
   const gint               px_size = babl_format_get_bytes_per_pixel (format),
@@ -798,7 +802,8 @@ static void
 gegl_affine_fast_reflect_y (GeglBuffer              *dest,
                             GeglBuffer              *src,
                             const GeglRectangle     *dest_rect,
-                            const GeglRectangle     *src_rect)
+                            const GeglRectangle     *src_rect,
+                            gint                     level)
 {
   const Babl              *format = gegl_buffer_get_format (src);
   const gint               px_size = babl_format_get_bytes_per_pixel (format),
@@ -922,7 +927,7 @@ gegl_affine_process (GeglOperation        *operation,
       src_rect.width -= context_rect.width;
       src_rect.height -= context_rect.height;
 
-      gegl_affine_fast_reflect_x (output, input, result, &src_rect);
+      gegl_affine_fast_reflect_x (output, input, result, &src_rect, context->level);
       g_object_unref (sampler);
 
       if (input != NULL)
@@ -953,7 +958,7 @@ gegl_affine_process (GeglOperation        *operation,
       src_rect.width -= context_rect.width;
       src_rect.height -= context_rect.height;
 
-      gegl_affine_fast_reflect_y (output, input, result, &src_rect);
+      gegl_affine_fast_reflect_y (output, input, result, &src_rect, context->level);
       g_object_unref (sampler);
 
       if (input != NULL)
@@ -970,6 +975,7 @@ gegl_affine_process (GeglOperation        *operation,
       sampler = gegl_buffer_sampler_new (input, babl_format("RaGaBaA float"),
           gegl_sampler_type_from_string (affine->filter));
       affine_generic (output, input, &matrix, sampler);
+
       g_object_unref (sampler);
 
       if (input != NULL)

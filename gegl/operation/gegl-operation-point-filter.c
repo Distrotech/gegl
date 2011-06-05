@@ -150,7 +150,7 @@ gegl_operation_point_filter_process (GeglOperation       *operation,
         }
 
       {
-        GeglBufferIterator *i = gegl_buffer_iterator_new (output, result, out_format, GEGL_BUFFER_WRITE);
+        GeglBufferIterator *i = gegl_buffer_iterator_new (output, result, out_format, GEGL_BUFFER_WRITE, level);
         gint read = /*output == input ? 0 :*/ gegl_buffer_iterator_add (i, input,  result, in_format, GEGL_BUFFER_READ);
         /* using separate read and write iterators for in-place ideally a single
          * readwrite indice would be sufficient

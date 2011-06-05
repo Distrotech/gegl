@@ -64,6 +64,9 @@ struct _GeglOperation
 
 #define MAX_PROCESSOR 4
 
+/* the level at which is being operated is stored in the context,
+*/
+
 void gegl_operation_class_add_processor (GeglOperationClass *cclass,
                                          GCallback           process,
                                          const gchar        *string);

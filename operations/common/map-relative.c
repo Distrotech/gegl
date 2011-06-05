@@ -77,7 +77,7 @@ process (GeglOperation       *operation,
 
   if (aux != NULL)
     {
-      it = gegl_buffer_iterator_new (output, result, format_io, GEGL_BUFFER_WRITE);
+      it = gegl_buffer_iterator_new (output, result, format_io, GEGL_BUFFER_WRITE, level);
       index_out = 0;
 
       index_coords = gegl_buffer_iterator_add (it, aux, result, format_coords, GEGL_BUFFER_READ);

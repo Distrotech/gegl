@@ -1249,7 +1249,7 @@ gegl_buffer_copy (GeglBuffer          *src,
       dest_rect_r.width = src_rect->width;
       dest_rect_r.height = src_rect->height;
 
-      i = gegl_buffer_iterator_new (dst, &dest_rect_r, dst->format, GEGL_BUFFER_WRITE);
+      i = gegl_buffer_iterator_new (dst, &dest_rect_r, dst->format, GEGL_BUFFER_WRITE, 0); /* XXX: is level 0 right? */
       read = gegl_buffer_iterator_add (i, src, src_rect, src->format, GEGL_BUFFER_READ);
       while (gegl_buffer_iterator_next (i))
         babl_process (fish, i->data[read], i->data[0], i->length);
@@ -1281,7 +1281,7 @@ gegl_buffer_clear (GeglBuffer          *dst,
   /* FIXME: this can be even further optimized by special casing it so
    * that fully voided tiles are dropped.
    */
-  i = gegl_buffer_iterator_new (dst, dst_rect, dst->format, GEGL_BUFFER_WRITE);
+  i = gegl_buffer_iterator_new (dst, dst_rect, dst->format, GEGL_BUFFER_WRITE, 0); /* XXX: should level be settable */
   while (gegl_buffer_iterator_next (i))
     {
       memset (((guchar*)(i->data[0])), 0, i->length * pxsize);

@@ -118,7 +118,7 @@ process (GeglOperation       *operation,
     }
 
   gegl_buffer_set (output, NULL, babl_format ("Y float"), buf,
-                   GEGL_AUTO_ROWSTRIDE);
+                   GEGL_AUTO_ROWSTRIDE, 0);
   g_free (buf);
 
   return  TRUE;

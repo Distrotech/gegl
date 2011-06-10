@@ -178,7 +178,7 @@ fill (GeglBuffer *buffer,
           buf[i++]=value;
         }
     }
-  gegl_buffer_set (buffer, NULL, babl_format ("Y float"), buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_set (buffer, NULL, babl_format ("Y float"), buf, GEGL_AUTO_ROWSTRIDE, 0);
   g_free (buf);
 }
 
@@ -223,7 +223,7 @@ static void checkerboard          (GeglBuffer *buffer,
         }
     }
 
-  gegl_buffer_set (buffer, NULL, babl_format ("Y float"), buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_set (buffer, NULL, babl_format ("Y float"), buf, GEGL_AUTO_ROWSTRIDE, 0);
 
   g_free (buf);
 }
@@ -250,7 +250,7 @@ static void vgrad (GeglBuffer *buffer)
           buf[i++]= (1.0*y)/height;
         }
     }
-  gegl_buffer_set (buffer, NULL, babl_format ("Y float"), buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_set (buffer, NULL, babl_format ("Y float"), buf, GEGL_AUTO_ROWSTRIDE, 0);
   g_free (buf);
 }
 
@@ -260,7 +260,7 @@ static void fill_rect (GeglBuffer          *buffer,
                        )
 {
   GeglBufferIterator *gi;
-  gi = gegl_buffer_iterator_new (buffer, roi, NULL, GEGL_BUFFER_WRITE);
+  gi = gegl_buffer_iterator_new (buffer, roi, NULL, GEGL_BUFFER_WRITE, 0);
   while (gegl_buffer_iterator_next (gi))
     {
       gfloat *buf = gi->data[0];

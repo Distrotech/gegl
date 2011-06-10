@@ -88,7 +88,7 @@ load_buffer (GeglChantO *op_raw_load)
                                  babl_component ("B"),
                                  NULL),
                             buf,
-                            GEGL_AUTO_ROWSTRIDE);
+                            GEGL_AUTO_ROWSTRIDE, 0);
            g_free (buf);
          }
        fclose (pfp);

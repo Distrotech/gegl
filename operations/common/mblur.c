@@ -93,8 +93,8 @@ process (GeglOperation       *operation,
             for (c=0;c<4;c++)
               acc[i*4+c]=acc[i*4+c]*dampness + buf[i*4+c]*(1.0-dampness);
           }
-        gegl_buffer_set (p->acc, result, babl_format ("RGBA float"), acc, GEGL_AUTO_ROWSTRIDE);
-        gegl_buffer_set (output, result, babl_format ("RGBA float"), acc, GEGL_AUTO_ROWSTRIDE);
+        gegl_buffer_set (p->acc, result, babl_format ("RGBA float"), acc, GEGL_AUTO_ROWSTRIDE, 0);
+        gegl_buffer_set (output, result, babl_format ("RGBA float"), acc, GEGL_AUTO_ROWSTRIDE, 0);
         g_free (buf);
         g_free (acc);
       }

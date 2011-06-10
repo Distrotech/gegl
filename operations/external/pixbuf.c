@@ -76,7 +76,7 @@ process (GeglOperation       *operation,
       extent.height = gdk_pixbuf_get_height (o->pixbuf);
 
       gegl_buffer_set (output, &extent, NULL, gdk_pixbuf_get_pixels (o->pixbuf),
-                       GEGL_AUTO_ROWSTRIDE);
+                       GEGL_AUTO_ROWSTRIDE, 0);
     }
   return TRUE;
 }

@@ -1200,7 +1200,7 @@ gegl_expcombine_process (GeglOperation        *operation,
 
   /* Save the HDR components to the output buffer. */
   gegl_buffer_set (output, full_roi, babl_format (PAD_FORMAT), hdr,
-                   GEGL_AUTO_ROWSTRIDE);
+                   GEGL_AUTO_ROWSTRIDE, 0);
   gegl_cache_computed (gegl_node_get_cache (operation->node), full_roi);
 
   /* Cleanup */

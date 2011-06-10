@@ -601,7 +601,8 @@ gegl_buffer_set (GeglBuffer          *buffer,
                  const GeglRectangle *rect,
                  const Babl          *format,
                  void                *src,
-                 gint                 rowstride)
+                 gint                 rowstride,
+                 gint                 level)     /* adding it here seems a bit wrong */
 {
   g_return_if_fail (GEGL_IS_BUFFER (buffer));
 

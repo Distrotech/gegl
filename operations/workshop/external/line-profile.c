@@ -132,7 +132,7 @@ process (GeglOperation       *operation,
    cairo_line_to (cr, o->x1, o->y1);
    cairo_stroke (cr);
 
-    gegl_buffer_set (output, NULL, babl_format ("B'aG'aR'aA u8"), buf, GEGL_AUTO_ROWSTRIDE);
+    gegl_buffer_set (output, NULL, babl_format ("B'aG'aR'aA u8"), buf, GEGL_AUTO_ROWSTRIDE, 0);
   }
 
   return TRUE;

@@ -155,7 +155,7 @@ process (GeglOperation       *operation,
 
   pixelise(buf, roi, o->xsize, o->ysize);
 
-  gegl_buffer_set (output, roi, babl_format ("RaGaBaA float"), buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_set (output, roi, babl_format ("RaGaBaA float"), buf, GEGL_AUTO_ROWSTRIDE, 0);
 
   g_free (buf);
 

@@ -167,7 +167,7 @@ demosaic (GeglChantO          *op,
       offset+=2;
     }
 
-  gegl_buffer_set (dst, dst_rect, babl_format ("RGB float"), dst_buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_set (dst, dst_rect, babl_format ("RGB float"), dst_buf, GEGL_AUTO_ROWSTRIDE, 0);
   g_free (src_buf);
   g_free (dst_buf);
 }

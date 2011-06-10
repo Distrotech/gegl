@@ -54,7 +54,6 @@ ppm_save_write(FILE    *fp,
                map_type type)
 {
   guint i;
-  gint retval;
 
   /* Write the header */
   fprintf (fp, "P%c\n%d %d\n", type, width, height );
@@ -75,7 +74,7 @@ ppm_save_write(FILE    *fp,
             }
         }
 
-      retval = fwrite (data, bpc, numsamples, fp);
+      fwrite (data, bpc, numsamples, fp);
     }
   else
     {

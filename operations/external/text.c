@@ -190,7 +190,7 @@ process (GeglOperation       *operation,
   text_layout_text (self, cr, 0, NULL, NULL);
 
   gegl_buffer_set (output, result, babl_format ("B'aG'aR'aA u8"), data,
-                   GEGL_AUTO_ROWSTRIDE);
+                   GEGL_AUTO_ROWSTRIDE, 0);
 
   cairo_destroy (cr);
   cairo_surface_destroy (surface);

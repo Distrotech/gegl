@@ -180,7 +180,7 @@ iir_young_hor_blur (GeglBuffer          *src,
     }
 
   gegl_buffer_set (dst, src_rect, babl_format ("RaGaBaA float"),
-                   buf, GEGL_AUTO_ROWSTRIDE);
+                   buf, GEGL_AUTO_ROWSTRIDE, 0);
   g_free (buf);
   g_free (w);
 }
@@ -222,7 +222,7 @@ iir_young_ver_blur (GeglBuffer          *src,
     }
 
   gegl_buffer_set (dst, src_rect,
-                   babl_format ("RaGaBaA float"), buf, GEGL_AUTO_ROWSTRIDE);
+                   babl_format ("RaGaBaA float"), buf, GEGL_AUTO_ROWSTRIDE, 0);
   g_free (buf);
   g_free (w);
 }
@@ -341,7 +341,7 @@ fir_hor_blur (GeglBuffer          *src,
       }
 
   gegl_buffer_set (dst, dst_rect, babl_format ("RaGaBaA float"),
-                   dst_buf, GEGL_AUTO_ROWSTRIDE);
+                   dst_buf, GEGL_AUTO_ROWSTRIDE, 0);
   g_free (src_buf);
   g_free (dst_buf);
 }
@@ -386,7 +386,7 @@ fir_ver_blur (GeglBuffer          *src,
       }
 
   gegl_buffer_set (dst, dst_rect, babl_format ("RaGaBaA float"),
-                   dst_buf, GEGL_AUTO_ROWSTRIDE);
+                   dst_buf, GEGL_AUTO_ROWSTRIDE, 0);
   g_free (src_buf);
   g_free (dst_buf);
 }

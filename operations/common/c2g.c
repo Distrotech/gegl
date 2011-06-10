@@ -122,7 +122,7 @@ static void c2g (GeglBuffer          *src,
           }
         }
     }
-  gegl_buffer_set (dst, dst_rect, babl_format ("YA float"), dst_buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_set (dst, dst_rect, babl_format ("YA float"), dst_buf, GEGL_AUTO_ROWSTRIDE, 0);
   g_free (src_buf);
   g_free (dst_buf);
 }

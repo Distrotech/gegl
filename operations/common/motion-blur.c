@@ -146,7 +146,7 @@ process (GeglOperation       *operation,
         }
     }
 
-  gegl_buffer_set (output, roi, babl_format ("RaGaBaA float"), out_buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_set (output, roi, babl_format ("RaGaBaA float"), out_buf, GEGL_AUTO_ROWSTRIDE, 0);
 
   g_free (in_buf);
   g_free (out_buf);

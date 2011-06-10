@@ -142,7 +142,7 @@ process (GeglOperation       *operation,
               }
         }
       gegl_buffer_set (output, NULL, babl_format ("RGBA float"), buf,
-                       GEGL_AUTO_ROWSTRIDE);
+                       GEGL_AUTO_ROWSTRIDE, 0);
 
       g_free (buf);
       g_free (bufB);

@@ -97,7 +97,7 @@ gegl_rgbe_load_process (GeglOperation       *operation,
     goto cleanup;
 
   gegl_buffer_set (output, result, babl_format (FORMAT), pixels,
-                   GEGL_AUTO_ROWSTRIDE);
+                   GEGL_AUTO_ROWSTRIDE, 0);
   success = TRUE;
 
 cleanup:

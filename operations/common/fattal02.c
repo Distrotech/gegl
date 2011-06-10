@@ -1293,7 +1293,7 @@ fattal02_process (GeglOperation       *operation,
     }
 
   gegl_buffer_set (output, result, babl_format (OUTPUT_FORMAT), pix,
-                   GEGL_AUTO_ROWSTRIDE);
+                   GEGL_AUTO_ROWSTRIDE, 0);
   g_free (pix);
   g_free (lum_out);
   g_free (lum_in);

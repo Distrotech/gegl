@@ -451,8 +451,7 @@ gegl_buffer_iterator_next (GeglBufferIterator *iterator)
               if (i->flags[no] & GEGL_BUFFER_SCAN_COMPATIBLE &&
                   i->flags[no] & GEGL_BUFFER_FORMAT_COMPATIBLE &&
                   i->roi[no].width == i->i[no].buffer->tile_storage->tile_width && (i->flags[no] & GEGL_BUFFER_FORMAT_COMPATIBLE))
-                {
-                   /* direct access, don't need to do anything */
+                { /* direct access, don't need to do anything */
 #if DEBUG_DIRECT
                    direct_write += i->roi[no].width * i->roi[no].height;
 #endif
@@ -468,7 +467,7 @@ gegl_buffer_iterator_next (GeglBufferIterator *iterator)
   /* XXX: should perhaps use _set_unlocked, and keep the lock in the
    * iterator.
    */
-                  gegl_buffer_set (i->buffer[no], &(i->roi[no]), i->format[no], i->buf[no], GEGL_AUTO_ROWSTRIDE);
+                  gegl_buffer_set (i->buffer[no], &(i->roi[no]), i->format[no], i->buf[no], GEGL_AUTO_ROWSTRIDE, 0); /* XXX: use correct level */
                 }
             }
         }

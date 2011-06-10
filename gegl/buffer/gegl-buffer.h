@@ -254,7 +254,8 @@ void            gegl_buffer_set               (GeglBuffer          *buffer,
                                                const GeglRectangle *rect,
                                                const Babl          *format,
                                                void                *src,
-                                               gint                 rowstride);
+                                               gint                 rowstride,
+                                               gint                 level);  /* level should perhaps be scale? */
 
 
 /**

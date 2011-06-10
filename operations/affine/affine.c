@@ -794,7 +794,7 @@ gegl_affine_fast_reflect_x (GeglBuffer              *dest,
         }
     }
 
-  gegl_buffer_set (dest, dest_rect, format, buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_set (dest, dest_rect, format, buf, GEGL_AUTO_ROWSTRIDE, 0);
   g_free (buf);
 }
 
@@ -840,7 +840,7 @@ gegl_affine_fast_reflect_y (GeglBuffer              *dest,
         }
     }
 
-  gegl_buffer_set (dest, dest_rect, format, buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_set (dest, dest_rect, format, buf, GEGL_AUTO_ROWSTRIDE, 0);
   g_free (buf);
 }
 

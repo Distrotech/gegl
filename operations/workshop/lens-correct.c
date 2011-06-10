@@ -294,7 +294,7 @@ copy_through_lens (LensCorrectionModel *oip,
     }
 
   /* Store dst pixels. */
-  gegl_buffer_set (dst, NULL, babl_format ("RGB float"), dst_buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_set (dst, NULL, babl_format ("RGB float"), dst_buf, GEGL_AUTO_ROWSTRIDE, 0);
 
   /* Free acquired storage. */
   g_free (src_buf);

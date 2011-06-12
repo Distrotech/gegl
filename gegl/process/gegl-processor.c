@@ -504,8 +504,8 @@ render_rectangle (GeglProcessor *processor)
 
 
               /* copy the buffer data into the cache */
-              gegl_buffer_set (GEGL_BUFFER (cache), dr, cache->format, buf,
-                               GEGL_AUTO_ROWSTRIDE, 0); /* XXX: deal with the level */
+              gegl_buffer_set (GEGL_BUFFER (cache), dr, 0, cache->format, buf,
+                               GEGL_AUTO_ROWSTRIDE); /* XXX: deal with the level */
 
               /* tells the cache that the rectangle (dr) has been computed */
               gegl_cache_computed (cache, dr);

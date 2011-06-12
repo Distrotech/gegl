@@ -242,12 +242,12 @@ process (GeglOperation       *operation,
   switch (img.bpc)
     {
     case 1:
-      gegl_buffer_get (output, 1.0, &rect, babl_format ("R'G'B' u8"), img.data,
+      gegl_buffer_get (output, &rect, 1.0, babl_format ("R'G'B' u8"), img.data,
                        GEGL_AUTO_ROWSTRIDE);
       break;
 
     case 2:
-      gegl_buffer_get (output, 1.0, &rect, babl_format ("R'G'B' u16"), img.data,
+      gegl_buffer_get (output, &rect, 1.0, babl_format ("R'G'B' u16"), img.data,
                        GEGL_AUTO_ROWSTRIDE);
       break;
 
@@ -260,13 +260,13 @@ process (GeglOperation       *operation,
   switch (img.bpc)
     {
     case 1:
-      gegl_buffer_set (output, &rect, babl_format ("R'G'B' u8"), img.data,
-                       GEGL_AUTO_ROWSTRIDE, 0);
+      gegl_buffer_set (output, &rect, 0, babl_format ("R'G'B' u8"), img.data,
+                       GEGL_AUTO_ROWSTRIDE);
       break;
 
     case 2:
-      gegl_buffer_set (output, &rect, babl_format ("R'G'B' u16"), img.data,
-                       GEGL_AUTO_ROWSTRIDE, 0);
+      gegl_buffer_set (output, &rect, 0, babl_format ("R'G'B' u16"), img.data,
+                       GEGL_AUTO_ROWSTRIDE);
       break;
 
     default:

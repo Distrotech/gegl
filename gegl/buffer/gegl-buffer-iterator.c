@@ -467,7 +467,7 @@ gegl_buffer_iterator_next (GeglBufferIterator *iterator)
   /* XXX: should perhaps use _set_unlocked, and keep the lock in the
    * iterator.
    */
-                  gegl_buffer_set (i->buffer[no], &(i->roi[no]), i->format[no], i->buf[no], GEGL_AUTO_ROWSTRIDE, 0); /* XXX: use correct level */
+                  gegl_buffer_set (i->buffer[no], &(i->roi[no]), 0, i->format[no], i->buf[no], GEGL_AUTO_ROWSTRIDE); /* XXX: use correct level */
                 }
             }
         }

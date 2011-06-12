@@ -90,6 +90,7 @@ load_buffer (GeglChantO *op_raw_load)
            fread (buf, 1, width * height * 3 * 2, pfp);
            gegl_buffer_set (GEGL_BUFFER (op_raw_load->chant_data),
                             NULL,
+                            0,
                             babl_format_new (
                                         babl_model ("RGB"),
                                         babl_type ("u16"),
@@ -98,7 +99,7 @@ load_buffer (GeglChantO *op_raw_load)
                                         babl_component ("R"),
                                         NULL),
                             buf,
-                            GEGL_AUTO_ROWSTRIDE, 0
+                            GEGL_AUTO_ROWSTRIDE
                            );
            g_free (buf);
          }

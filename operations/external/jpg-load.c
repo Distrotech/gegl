@@ -123,16 +123,16 @@ gegl_jpg_load_buffer_import_jpg (GeglBuffer  *gegl_buffer,
       switch (cinfo.output_components)
         {
         case 1:
-          gegl_buffer_set (gegl_buffer, &rect,
+          gegl_buffer_set (gegl_buffer, &rect, 0,
                            babl_format ("Y' u8"), buffer[0],
-                           GEGL_AUTO_ROWSTRIDE, 0);
+                           GEGL_AUTO_ROWSTRIDE);
           break;
         case 3:
         default:
-          gegl_buffer_set (gegl_buffer, &rect,
+          gegl_buffer_set (gegl_buffer, &rect, 0,
                            babl_format ("R'G'B' u8"), buffer[0],
-                           GEGL_AUTO_ROWSTRIDE, 0);
-	}
+                           GEGL_AUTO_ROWSTRIDE);
+	      }
     }
   jpeg_destroy_decompress (&cinfo);
   fclose (infile);

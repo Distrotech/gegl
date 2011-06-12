@@ -96,7 +96,7 @@ instead.
       rect.height = height;
 
       pixeldata = gdk_pixbuf_get_pixels (pixbuf);
-      gegl_buffer_set (gegl_buffer, &rect, babl_format ("R'G'B'A u8"), pixeldata, GEGL_AUTO_ROWSTRIDE, 0);
+      gegl_buffer_set (gegl_buffer, &rect, 0, babl_format ("R'G'B'A u8"), pixeldata, GEGL_AUTO_ROWSTRIDE);
     }
 
     rsvg_term();

@@ -189,8 +189,8 @@ process (GeglOperation       *operation,
   cairo_translate (cr, -result->x, -result->y);
   text_layout_text (self, cr, 0, NULL, NULL);
 
-  gegl_buffer_set (output, result, babl_format ("B'aG'aR'aA u8"), data,
-                   GEGL_AUTO_ROWSTRIDE, 0);
+  gegl_buffer_set (output, result, 0, babl_format ("B'aG'aR'aA u8"), data,
+                   GEGL_AUTO_ROWSTRIDE);
 
   cairo_destroy (cr);
   cairo_surface_destroy (surface);

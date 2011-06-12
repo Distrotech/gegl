@@ -774,7 +774,7 @@ gegl_affine_fast_reflect_x (GeglBuffer              *dest,
   gint                     i;
   guchar                  *buf = (guchar *) g_malloc (src_rect->height * rowstride);
 
-  gegl_buffer_get (src, 1.0, src_rect, format, buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_get (src,  src_rect, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE);
 
   for (i = 0; i < src_rect->height / 2; i++)
     {
@@ -794,7 +794,7 @@ gegl_affine_fast_reflect_x (GeglBuffer              *dest,
         }
     }
 
-  gegl_buffer_set (dest, dest_rect, format, buf, GEGL_AUTO_ROWSTRIDE, 0);
+  gegl_buffer_set (dest, dest_rect, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
   g_free (buf);
 }
 
@@ -811,7 +811,7 @@ gegl_affine_fast_reflect_y (GeglBuffer              *dest,
   gint                     i;
   guchar                  *buf = (guchar *) g_malloc (src_rect->height * rowstride);
 
-  gegl_buffer_get (src, 1.0, src_rect, format, buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_get (src, src_rect, 1.0, format, buf, GEGL_AUTO_ROWSTRIDE);
 
   for (i = 0; i < src_rect->height; i++)
     {
@@ -840,7 +840,7 @@ gegl_affine_fast_reflect_y (GeglBuffer              *dest,
         }
     }
 
-  gegl_buffer_set (dest, dest_rect, format, buf, GEGL_AUTO_ROWSTRIDE, 0);
+  gegl_buffer_set (dest, dest_rect, 0, format, buf, GEGL_AUTO_ROWSTRIDE);
   g_free (buf);
 }
 
@@ -974,7 +974,7 @@ gegl_affine_process (GeglOperation        *operation,
 
       sampler = gegl_buffer_sampler_new (input, babl_format("RaGaBaA float"),
           gegl_sampler_type_from_string (affine->filter));
-      affine_generic (output, input, &matrix, sampler);
+      affine_generic (output, input, &matrix, sampler, context->level);
 
       g_object_unref (sampler);
 

@@ -123,7 +123,7 @@ snn_mean (GeglBuffer          *src,
   src_buf = g_new0 (gfloat, gegl_buffer_get_pixel_count (src) * 4);
   dst_buf = g_new0 (gfloat, dst_rect->width * dst_rect->height * 4);
 
-  gegl_buffer_get (src, 1.0, NULL, babl_format ("RGBA float"), src_buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_get (src, NULL, 1.0, babl_format ("RGBA float"), src_buf, GEGL_AUTO_ROWSTRIDE);
 
   offset = 0;
 
@@ -202,8 +202,8 @@ snn_mean (GeglBuffer          *src,
           center_pix += 4;
         }
     }
-  gegl_buffer_set (dst, dst_rect, babl_format ("RGBA float"), dst_buf,
-                   GEGL_AUTO_ROWSTRIDE, 0);
+  gegl_buffer_set (dst, dst_rect, 0, babl_format ("RGBA float"), dst_buf,
+                   GEGL_AUTO_ROWSTRIDE);
   g_free (src_buf);
   g_free (dst_buf);
 }

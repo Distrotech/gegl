@@ -108,7 +108,7 @@ edge_sobel (GeglBuffer          *src,
   src_buf = g_new0 (gfloat, src_rect->width * src_rect->height * 4);
   dst_buf = g_new0 (gfloat, dst_rect->width * dst_rect->height * 4);
 
-  gegl_buffer_get (src, 1.0, src_rect, babl_format ("RGBA float"), src_buf, GEGL_AUTO_ROWSTRIDE);
+  gegl_buffer_get (src, src_rect, 1.0, babl_format ("RGBA float"), src_buf, GEGL_AUTO_ROWSTRIDE);
 
   offset = 0;
 
@@ -176,8 +176,8 @@ edge_sobel (GeglBuffer          *src,
         offset++;
       }
 
-  gegl_buffer_set (dst, dst_rect, babl_format ("RGBA float"), dst_buf,
-                   GEGL_AUTO_ROWSTRIDE, 0);
+  gegl_buffer_set (dst, dst_rect, 0, babl_format ("RGBA float"), dst_buf,
+                   GEGL_AUTO_ROWSTRIDE);
   g_free (src_buf);
   g_free (dst_buf);
 }

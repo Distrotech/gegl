@@ -599,10 +599,10 @@ gegl_buffer_set_unlocked (GeglBuffer          *buffer,
 void
 gegl_buffer_set (GeglBuffer          *buffer,
                  const GeglRectangle *rect,
+                 gint                 level,
                  const Babl          *format,
                  void                *src,
-                 gint                 rowstride,
-                 gint                 level)     /* adding it here seems a bit wrong */
+                 gint                 rowstride)
 {
   g_return_if_fail (GEGL_IS_BUFFER (buffer));
 
@@ -1064,8 +1064,8 @@ gegl_buffer_get_unlocked (GeglBuffer          *buffer,
 
 void
 gegl_buffer_get (GeglBuffer          *buffer,
-                 gdouble              scale,
                  const GeglRectangle *rect,
+                 gdouble              scale,
                  const Babl          *format,
                  gpointer             dest_buf,
                  gint                 rowstride)

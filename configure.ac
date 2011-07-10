@@ -27,7 +27,7 @@ m4_define([gegl_binary_age],
 m4_define([gegl_api_version], [gegl_major_version.gegl_minor_version])
 
 m4_define([stability_version_number],
-          m4_if(m4_eval(gegl_major_version || gegl_minor_version), [0], 
+          m4_if(m4_eval(gegl_major_version || gegl_minor_version), [0],
                         [gegl_micro_version], [gegl_minor_version]))
 m4_define([gegl_unstable],
           m4_if(m4_eval(stability_version_number % 2), [1], [yes], [no]))
@@ -67,10 +67,10 @@ m4_ifdef([AM_SILENT_RULES],
          [AC_SUBST([AM_DEFAULT_VERBOSITY], [1])])
 
 dnl ==========================================================================
-dnl                              Versioning              
+dnl                              Versioning
 dnl ==========================================================================
 
-dnl The triplet 
+dnl The triplet
 GEGL_MAJOR_VERSION=gegl_major_version
 GEGL_MINOR_VERSION=gegl_minor_version
 GEGL_MICRO_VERSION=gegl_micro_version
@@ -240,7 +240,7 @@ esac
 ####################################################
 
 AC_MSG_CHECKING([for dynamic library filename suffix])
-case "$target_or_host" in 
+case "$target_or_host" in
   *-*-darwin*)                 # darwin
     shrext=.dylib
     ;;
@@ -285,7 +285,7 @@ AM_CONDITIONAL(PLATFORM_DARWIN, test "$platform_darwin" = "yes")
 #################
 
 AC_MSG_CHECKING([for some Win32 platform])
-case "$target_or_host" in 
+case "$target_or_host" in
   *-*-mingw* | *-*-cygwin*)
     platform_win32=yes
     ;;
@@ -435,17 +435,17 @@ PKG_CHECK_MODULES(BABL, babl >= babl_required_version)
 GLIB_PACKAGES="gobject-2.0 gmodule-2.0 gio-2.0"
 AC_SUBST(GLIB_PACKAGES)
 
-dnl This PATH_GLIB is somewhat redundant, but does a sanity compile and 
+dnl This PATH_GLIB is somewhat redundant, but does a sanity compile and
 dnl importantly defines the GLIB_GENMARSHAL variable for subst into the
 dnl Makefile
 AM_PATH_GLIB_2_0($GLIB_REQUIRED_VERSION, :,
   AC_MSG_ERROR([
-*** GLIB $GLIB_REQUIRED_VERSION or better is required. The latest version of 
+*** GLIB $GLIB_REQUIRED_VERSION or better is required. The latest version of
 *** GLIB is always available from ftp://ftp.gtk.org/.]),
   gobject gmodule)
 
 PKG_CHECK_MODULES(DEP,
-	          glib-2.0 >= $GLIB_REQUIRED_VERSION $GLIB_PACKAGES, ,
+            glib-2.0 >= $GLIB_REQUIRED_VERSION $GLIB_PACKAGES, ,
                   AC_MSG_ERROR([
         *** GLib not found. You can find it on ftp://ftp.gtk.org
         *** Errors follow:
@@ -501,7 +501,7 @@ AC_MSG_RESULT($have_glib_2_21)
 GTK_DOC_CHECK([1.0])
 
 dnl NOTE: We need to use a separate automake conditional for this
-dnl   	  to make this work with the tarballs.
+dnl       to make this work with the tarballs.
 AM_CONDITIONAL(ENABLE_GTK_DOC, test "x$enable_gtk_doc" = "xyes")
 
 AC_CHECK_PROGS(PERL, perl5 perl)
@@ -530,7 +530,7 @@ AC_SUBST(RUBY_BIN)
 ####################
 # Check for enscript
 ####################
- 
+
 AC_PATH_PROG(ENSCRIPT, enscript, no)
 if test "$ENSCRIPT" = "no"; then
   have_enscript="no  (enscript not found)"
@@ -543,7 +543,7 @@ AM_CONDITIONAL(HAVE_ENSCRIPT, test "x$have_enscript" = "xyes")
 ####################
 # Check for asciidoc
 ####################
- 
+
 AC_PATH_PROG(ASCIIDOC, asciidoc, no)
 if test "$ASCIIDOC" = "no"; then
   have_asciidoc="no  (asciidoc not found)"
@@ -557,7 +557,7 @@ AM_CONDITIONAL(HAVE_ASCIIDOC, test "x$have_asciidoc" = "xyes")
 ###############
 # Check for dot
 ###############
- 
+
 AC_PATH_PROG(DOT, dot, no)
 if test "$DOT" = "no"; then
   have_dot="no  (dot not found)"
@@ -588,8 +588,8 @@ fi
 
 AM_CONDITIONAL(HAVE_CAIRO, test "$have_cairo" = "yes")
 
-AC_SUBST(CAIRO_CFLAGS) 
-AC_SUBST(CAIRO_LIBS) 
+AC_SUBST(CAIRO_CFLAGS)
+AC_SUBST(CAIRO_LIBS)
 
 
 ########################
@@ -616,10 +616,10 @@ fi
 AM_CONDITIONAL(HAVE_PANGO, test "x$have_pango" = "xyes")
 AM_CONDITIONAL(HAVE_PANGOCAIRO, test "x$have_pangocairo" = "xyes")
 
-AC_SUBST(PANGO_CFLAGS) 
-AC_SUBST(PANGO_LIBS) 
-AC_SUBST(PANGOCAIRO_CFLAGS) 
-AC_SUBST(PANGOCAIRO_LIBS) 
+AC_SUBST(PANGO_CFLAGS)
+AC_SUBST(PANGO_LIBS)
+AC_SUBST(PANGOCAIRO_CFLAGS)
+AC_SUBST(PANGOCAIRO_LIBS)
 
 
 ######################
@@ -711,8 +711,8 @@ fi
 
 AM_CONDITIONAL(HAVE_PNG, test "$have_libpng" = "yes")
 
-AC_SUBST(PNG_CFLAGS) 
-AC_SUBST(PNG_LIBS) 
+AC_SUBST(PNG_CFLAGS)
+AC_SUBST(PNG_LIBS)
 
 
 ###################
@@ -730,8 +730,8 @@ fi
 
 AM_CONDITIONAL(HAVE_RSVG, test "$have_librsvg" = "yes")
 
-AC_SUBST(RSVG_CFLAGS) 
-AC_SUBST(RSVG_LIBS) 
+AC_SUBST(RSVG_CFLAGS)
+AC_SUBST(RSVG_LIBS)
 
 
 ###################
@@ -749,8 +749,8 @@ fi
 
 AM_CONDITIONAL(HAVE_OPENEXR, test "$have_openexr" = "yes")
 
-AC_SUBST(OPENEXR_CFLAGS) 
-AC_SUBST(OPENEXR_LIBS) 
+AC_SUBST(OPENEXR_CFLAGS)
+AC_SUBST(OPENEXR_LIBS)
 
 
 ###############
@@ -773,7 +773,7 @@ if test "x$with_sdl" != "xno"; then
 fi
 
 AM_CONDITIONAL(HAVE_SDL, test "$have_sdl" = "yes")
- 
+
 AC_SUBST(SDL_CFLAGS)
 AC_SUBST(SDL_LIBS)
 
@@ -793,8 +793,8 @@ fi
 
 AM_CONDITIONAL(HAVE_OPENRAW, test "$have_libopenraw" = "yes")
 
-AC_SUBST(OPENRAW_CFLAGS) 
-AC_SUBST(OPENRAW_LIBS) 
+AC_SUBST(OPENRAW_CFLAGS)
+AC_SUBST(OPENRAW_LIBS)
 
 
 ##################
@@ -831,7 +831,7 @@ AC_SUBST(JASPER_LIBS)
 ####################
 # Check for graphviz
 ####################
- 
+
 AC_ARG_WITH(graphviz, [  --without-graphviz      build without graphviz support])
 
 have_graphviz="no"
@@ -866,8 +866,8 @@ fi
 
 AM_CONDITIONAL(HAVE_LUA, test "$have_lua" = "yes")
 
-AC_SUBST(LUA_CFLAGS) 
-AC_SUBST(LUA_LIBS) 
+AC_SUBST(LUA_CFLAGS)
+AC_SUBST(LUA_LIBS)
 
 
 ####################################
@@ -903,7 +903,7 @@ AM_CONDITIONAL(HAVE_AVFORMAT, test "x$have_libavformat" = "xyes")
 ###############
 # Check for V4L
 ###############
- 
+
 AC_ARG_WITH(libv4l, [  --without-libv4l        build without V4L support])
 
 have_v4l="no"
@@ -918,7 +918,7 @@ AM_CONDITIONAL(HAVE_V4L, test "$have_v4l" = "yes")
 ################
 # Check for lcms
 ################
- 
+
 #AC_ARG_WITH(liblcms, [  --without-lcms          build without CMS support])
 #
 #have_lcms="no"
@@ -934,7 +934,7 @@ AM_CONDITIONAL(HAVE_V4L, test "$have_v4l" = "yes")
 #        LCMS_LIBS="-llcms")])
 #  ])
 #fi
-# 
+#
 #AM_CONDITIONAL(HAVE_LCMS, test "x$have_lcms" = "xyes")
 #AC_SUBST(LCMS_LIBS)
 
@@ -1036,9 +1036,9 @@ AM_CONDITIONAL(ENABLE_WORKSHOP, test "x$enable_workshop" = "xyes")
 
 # check for rint
 AC_CHECK_FUNC(rint, AC_DEFINE(HAVE_RINT, 1,
-                              [Define to 1 if you have the rint function.]), [ 
-                  AC_CHECK_LIB(m, rint, [AC_DEFINE(HAVE_RINT)])])
-
+                              [Define to 1 if you have the rint function.]), [
+  AC_CHECK_LIB(m, rint, [
+    AC_DEFINE(HAVE_RINT)])])
 
 #######################
 # Enable extra warnings

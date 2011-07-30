@@ -21,6 +21,12 @@
 #include <math.h>
 #include <stdio.h> /* for test only */
 
+/* #define COPY_ON_WRITE */
+#ifndef COPY_ON_WRITE
+#include "gegl.h"
+#include "gegl-buffer-private.h"
+#endif
+
 #ifdef GEGL_CHANT_PROPERTIES
 
 gegl_chant_double (strength, _("Strength"), 0.0, 100.0, 50,
@@ -321,7 +327,14 @@ process (GeglOperation       *operation,
 
   printf("Process %p\n", operation);
 
+#ifdef COPY_ON_WRITE
   priv->buffer = gegl_buffer_dup (input);
+#else
+  g_assert (GEGL_IS_BUFFER (input));
+
+  priv->buffer = gegl_buffer_new (gegl_buffer_get_extent (input), input->format);
+  gegl_buffer_copy (input, gegl_buffer_get_extent (input), priv->buffer, gegl_buffer_get_extent (input));
+#endif
 
   event = gegl_path_get_path (o->stroke);
 

@@ -78,9 +78,21 @@ gegl_sampler_nearest_get (GeglSampler *self,
                           GeglMatrix2 *scale,
                           void        *output)
 {
-  gfloat             *sampler_bptr;
-  sampler_bptr = gegl_sampler_get_from_buffer (self, (gint)x, (gint)y);
-  babl_process (babl_fish (self->interpolate_format, self->format), sampler_bptr, output, 1);
+  if (!babl_format_is_format_n (self->format))
+    {
+      gfloat  *sampler_bptr;
+      sampler_bptr = gegl_sampler_get_from_buffer (self, (gint)x, (gint)y);
+
+      babl_process (babl_fish (self->interpolate_format, self->format), sampler_bptr, output, 1);
+    }
+  else
+    {
+      void  *data;
+      gint nbyte;
+      data = gegl_sampler_get_from_buffer (self, (gint)x, (gint)y);
+      nbyte = babl_format_get_bytes_per_pixel (self->format);
+      memcpy (output, data, nbyte);
+    }
 }
 
 static void

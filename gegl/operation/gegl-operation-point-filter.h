@@ -58,11 +58,12 @@ struct _GeglOperationPointFilterClass
                                                         in in buffer, see the
                                                         checkerboard op for
                                                         semantics */
+                        gint                 level);
   cl_int   (* cl_process) (GeglOperation       *self,
                            cl_mem               in_tex,
                            cl_mem               out_tex,
                            size_t               global_worksize,
-                           const GeglRectangle *roi);
+                           const GeglRectangle *roi,
                            gint                 level);
   gpointer                 pad[4];
 };

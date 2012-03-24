@@ -78,7 +78,8 @@ static gboolean
 gegl_operation_point_filter_cl_process (GeglOperation       *operation,
                                         GeglBuffer          *input,
                                         GeglBuffer          *output,
-                                        const GeglRectangle *result)
+                                        const GeglRectangle *result,
+                                        gint                 level)
 {
   const Babl *in_format  = gegl_operation_get_format (operation, "input");
   const Babl *out_format = gegl_operation_get_format (operation, "output");
@@ -115,7 +116,7 @@ gegl_operation_point_filter_cl_process (GeglOperation       *operation,
         for (j=0; j < i->n; j++)
           {
             cl_err = point_filter_class->cl_process(operation, i->tex[read][j], i->tex[0][j],
-                                                    i->size[0][j], &i->roi[0][j]);
+                                                    i->size[0][j], &i->roi[0][j], level);
             if (cl_err != CL_SUCCESS)
               {
                 GEGL_NOTE (GEGL_DEBUG_OPENCL, "Error in %s [GeglOperationPointFilter] Kernel",
@@ -145,7 +146,7 @@ gegl_operation_point_filter_process (GeglOperation       *operation,
     {
       if (gegl_cl_is_accelerated () && point_filter_class->cl_process)
         {
-          if (gegl_operation_point_filter_cl_process (operation, input, output, result))
+          if (gegl_operation_point_filter_cl_process (operation, input, output, result, level))
             return TRUE;
         }
 

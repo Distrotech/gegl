@@ -27,6 +27,7 @@
 #include "gegl-operation-sink.h"
 #include "graph/gegl-node.h"
 #include "graph/gegl-pad.h"
+#include "buffer/gegl-buffer-cl-cache.h"
 
 
 enum

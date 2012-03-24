@@ -1347,7 +1347,7 @@ void            gegl_buffer_set_color         (GeglBuffer          *dst,
   /* FIXME: this can be even further optimized by special casing it so
    * that fully filled tiles are shared.
    */
-  i = gegl_buffer_iterator_new (dst, dst_rect, dst->format, GEGL_BUFFER_WRITE);
+  i = gegl_buffer_iterator_new (dst, dst_rect, dst->format, GEGL_BUFFER_WRITE, 0);
   while (gegl_buffer_iterator_next (i))
     {
       int j;

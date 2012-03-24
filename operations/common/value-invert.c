@@ -165,10 +165,11 @@ static gegl_cl_run_data *cl_data = NULL;
 /* OpenCL processing function */
 static cl_int
 cl_process (GeglOperation       *op,
-            cl_mem              in_tex,
-            cl_mem              out_tex,
-            size_t              global_worksize,
-            const GeglRectangle *roi)
+            cl_mem               in_tex,
+            cl_mem               out_tex,
+            size_t               global_worksize,
+            const GeglRectangle *roi,
+            int                  level)
 {
 
   cl_int cl_err = 0;

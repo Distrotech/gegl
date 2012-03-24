@@ -227,24 +227,10 @@ gegl_operation_point_composer_process (GeglOperation       *operation,
         {
           if (gegl_operation_point_composer_cl_process (operation, input, aux, output, result))
             return TRUE;
-          /* XXX: this probably wrong when iterating on a different level */
-          gint foo = gegl_buffer_iterator_add (i, aux,  result, aux_format, GEGL_BUFFER_READ);
-
-          while (gegl_buffer_iterator_next (i))
-            {
-               point_composer_class->process (operation, i->data[read], i->data[foo], i->data[0], i->length, &(i->roi[0]), level);
-            }
-        }
-      else
-        {
-          while (gegl_buffer_iterator_next (i))
-            {
-               point_composer_class->process (operation, i->data[read], NULL, i->data[0], i->length, &(i->roi[0]), level);
-            }
         }
 
       {
-        GeglBufferIterator *i = gegl_buffer_iterator_new (output, result, out_format, GEGL_BUFFER_WRITE), level;
+        GeglBufferIterator *i = gegl_buffer_iterator_new (output, result, out_format, GEGL_BUFFER_WRITE, level);
         gint read = /*output == input ? 0 :*/ gegl_buffer_iterator_add (i, input,  result, in_format, GEGL_BUFFER_READ);
         /* using separate read and write iterators for in-place ideally a single
          * readwrite indice would be sufficient
@@ -256,14 +242,14 @@ gegl_operation_point_composer_process (GeglOperation       *operation,
 
             while (gegl_buffer_iterator_next (i))
               {
-                 point_composer_class->process (operation, i->data[read], i->data[foo], i->data[0], i->length, &(i->roi[0]));
+                 point_composer_class->process (operation, i->data[read], i->data[foo], i->data[0], i->length, &(i->roi[0]), level);
               }
           }
         else
           {
             while (gegl_buffer_iterator_next (i))
               {
-                 point_composer_class->process (operation, i->data[read], NULL, i->data[0], i->length, &(i->roi[0]));
+                 point_composer_class->process (operation, i->data[read], NULL, i->data[0], i->length, &(i->roi[0]), level);
               }
           }
       }

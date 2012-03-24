@@ -110,8 +110,6 @@ ppm_load_read_header(FILE       *fp,
     }
 
     return TRUE;
-    if (retval)
-      return TRUE;
 }
 
 static void
@@ -167,8 +165,6 @@ ppm_load_read_image(FILE       *fp,
             g_warning ("%s: Programmer stupidity error", G_STRLOC);
           }
       }
-    if (retval)
-      return;
 }
 
 static GeglRectangle

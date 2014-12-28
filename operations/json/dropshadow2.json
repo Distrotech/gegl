@@ -110,6 +110,10 @@
   "inports": {
     "x": {
       "process": "translate",
+      "port": "x"
+    },
+    "y": {
+      "process": "translate",
       "port": "y"
     },
     "color": {

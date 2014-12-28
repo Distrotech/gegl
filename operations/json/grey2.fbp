@@ -1,0 +1,4 @@
+INPORT=in.INPUT:INPUT
+OUTPORT=out.OUTPUT:OUTPUT
+
+in(gegl/nop) OUTPUT -> INPUT g(gegl/grey) OUTPUT -> INPUT out(gegl/nop)

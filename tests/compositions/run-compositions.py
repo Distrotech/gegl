@@ -42,7 +42,7 @@ class Context():
     else:
       exe_suffix = ""
 
-    self.gegl_bin = os.path.join(self.build_dir, "bin", "gegl" + exe_suffix)
+    self.gegl_bin = os.path.join(self.build_dir, "bin", ".libs/gegl" + exe_suffix)
     self.img_cmp_bin = os.path.join(self.build_dir, "tools", "gegl-imgcmp" + exe_suffix)
     self.detect_opencl_bin = os.path.join(self.build_dir, "tools", "detect_opencl" + exe_suffix)
 
@@ -115,9 +115,10 @@ class Context():
     xml_graph_path = os.path.realpath(test_xml_filename)
 
     try:
+      args = ['gdb', '-ex', 'run', '--args', self.gegl_bin, xml_graph_path, "-o", out_image_path]
       if VERBOSE:
-        print(" ".join([self.gegl_bin, xml_graph_path, "-o", out_image_path]))
-      subprocess.check_call([self.gegl_bin, xml_graph_path, "-o", out_image_path], env=test_env)
+        print(" ".join(args))
+      subprocess.check_call(args, env=test_env)
 
       if VERBOSE:
         print(" ".join([self.img_cmp_bin, ref_image_path, out_image_path]))

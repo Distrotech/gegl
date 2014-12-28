@@ -2,7 +2,7 @@
 <gegl>
   <node operation='gegl:dropshadow2'>
     <params>
-      <param name='value'>0.5</param>
+      <param name='radius'>10</param>
     </params>
   </node>
   <node operation='gegl:load'>

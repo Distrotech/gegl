@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <gegl>
-  <node operation='gegl:dropshadow2'>
+  <node operation='gegl:dropshadow'>
     <params>
-      <param name='radius'>100</param>
+      <param name='radius'>10</param>
     </params>
   </node>
   <node operation='gegl:load'>
     <params>
-      <param name='path'>data/gegl.png</param>
+      <param name='path'>data/car-stack.png</param>
     </params>
   </node>
 </gegl>

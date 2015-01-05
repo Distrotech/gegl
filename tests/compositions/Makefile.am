@@ -79,7 +79,8 @@ if HAVE_UMFPACK
 TESTS += matting-levin.xml
 endif
 
-TESTS=dropshadow-json.xml
+# TESTS=dropshadow.xml dropshadow-json.xml
+TESTS=grey-json.xml
 
 check-TESTS: $(TESTS)
 	$(PYTHON) $(srcdir)/run-compositions.py \

@@ -35,7 +35,7 @@ property_int (radius, _("Radius"), 300)
 
 property_int  (samples, _("Samples"), 4)
   description (_("Number of samples to do per iteration looking for the range of colors"))
-  value_range (1, 1000) 
+  value_range (1, 1000)
   ui_range    (3, 17)
 
 property_int (iterations, _("Iterations"), 10)

@@ -45,12 +45,14 @@ typedef struct _JsonOp
   GeglOperationMetaJson parent_instance;
   JsonObject *json_root;
   GHashTable *nodes;
+  GValue *properties;
 } JsonOp;
 
 typedef struct
 {
   GeglOperationMetaJsonClass parent_class;
   JsonObject *json_root;
+  guint no_props;
 } JsonOpClass;
 
 
@@ -133,7 +135,35 @@ set_prop(GeglNode *t, const gchar *port, GParamSpec *paramspec, GValue *value)  
     return FALSE;
 }
 
-static void
+static GParamSpec *
+copy_param_spec(GParamSpec *in, const gchar *name) {
+
+  const gchar * blurb = g_param_spec_get_blurb(in);
+  GParamSpec *out = NULL;
+
+  // TODO: handle more things
+  if (G_IS_PARAM_SPEC_FLOAT(in)) {
+    GParamSpecFloat *f = G_PARAM_SPEC_FLOAT(in);
+    out = g_param_spec_double(name, name, blurb, f->minimum, f->maximum, f->default_value, in->flags);       
+  } else if (G_IS_PARAM_SPEC_DOUBLE(in)) {
+    GParamSpecDouble *d = G_PARAM_SPEC_DOUBLE(in);
+    out = g_param_spec_double(name, name, blurb, d->minimum, d->maximum, d->default_value, in->flags);
+  } else if (G_IS_PARAM_SPEC_INT(in)) {
+    GParamSpecInt *i = G_PARAM_SPEC_INT(in);
+    out = g_param_spec_int(name, name, blurb, i->minimum, i->maximum, i->default_value, in->flags);
+  } else if (G_IS_PARAM_SPEC_UINT(in)) {
+    GParamSpecUInt *u = G_PARAM_SPEC_UINT(in);
+    out = g_param_spec_int(name, name, blurb, u->minimum, u->maximum, u->default_value, in->flags);
+  } else if (G_IS_PARAM_SPEC_LONG(in)) {
+    GParamSpecLong *l = G_PARAM_SPEC_LONG(in);
+    out = g_param_spec_int(name, name, blurb, l->minimum, l->maximum, l->default_value, in->flags);
+  } else {
+    g_critical("Unknown param spec type");
+  }
+  return out;
+}
+
+static guint
 install_properties(JsonOpClass *json_op_class)
 {
     GObjectClass *object_class = G_OBJECT_CLASS (json_op_class);
@@ -152,14 +182,28 @@ install_properties(JsonOpClass *json_op_class)
             JsonObject *conn = json_object_get_object_member(inports, name);
             const gchar *proc = json_object_get_string_member(conn, "process");
             const gchar *port = json_object_get_string_member(conn, "port");
-            GParamSpec *spec = NULL;
+            JsonObject *processes = json_object_get_object_member(root, "processes");
+            JsonObject *p = json_object_get_object_member(processes, proc);
+            const gchar *component = json_object_get_string_member(p, "component");
 
-            g_print("adding property %s, pointing to %s %s\n", name, port, proc);
+            {
+              GParamSpec *target_spec = NULL;
+              gchar *opname = component2geglop(component);
+              // HACK: should avoid instantiating node to determine prop
+              GeglNode *n = gegl_node_new();
+              g_assert(n);
+              gegl_node_set(n, "operation", opname, NULL);
+              target_spec = gegl_node_find_property(n, port);
+              if (target_spec) {
+//                GParamSpec *spec = g_param_spec_override (name, target_spec);
 
-            // TODO: look up property on the class/op the port points to and use that paramspec
-            spec = g_param_spec_int (name, name, "DUMMY description", 0, 1000, 1,
-                                        (GParamFlags) (G_PARAM_READWRITE | G_PARAM_CONSTRUCT | GEGL_PARAM_PAD_INPUT));
-            g_object_class_install_property (object_class, prop++, spec);
+                GParamSpec *spec = copy_param_spec(target_spec, name);
+                g_print("adding property %s, pointing to %s %s\n", name, port, proc);              
+                g_object_class_install_property (object_class, prop++, spec);
+              }
+              g_object_unref(n);
+              g_free(opname);
+            }
         }
     }
 
@@ -176,7 +220,7 @@ install_properties(JsonOpClass *json_op_class)
         }
     }
 */
-
+  return prop-1;
 }
 
 static GObject *
@@ -200,11 +244,12 @@ get_property (GObject      *gobject,
               GValue       *value,
               GParamSpec   *pspec)
 {
-  switch (property_id)
-  {
-    default:
-//      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, property_id, pspec);
-      break;
+  JsonOpClass * json_op_class = (JsonOpClass *)G_OBJECT_GET_CLASS(gobject);
+  JsonOp * self = (JsonOp *)(gobject);
+  if (property_id <= json_op_class->no_props) {
+    g_value_copy (self->properties+property_id, value);
+  } else {
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, property_id, pspec);
   }
 }
 
@@ -214,11 +259,12 @@ set_property (GObject      *gobject,
               const GValue *value,
               GParamSpec   *pspec)
 {
-  switch (property_id)
-  {
-    default:
-//      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, property_id, pspec);
-      break;
+  JsonOpClass * json_op_class = (JsonOpClass *)G_OBJECT_GET_CLASS(gobject);
+  JsonOp * self = (JsonOp *)(gobject);
+  if (property_id <= json_op_class->no_props) {
+    g_value_copy (value, self->properties+property_id);
+  } else {
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, property_id, pspec);
   }
 }
 
@@ -333,6 +379,36 @@ attach (GeglOperation *operation)
 }
 
 static void
+json_op_init (JsonOp *self)
+{
+  JsonOpClass *json_op_class = (JsonOpClass *)G_OBJECT_GET_CLASS(self);
+
+  self->nodes = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_object_unref);
+
+  const guint n = json_op_class->no_props+1;
+  self->properties = g_new(GValue, n);
+  for (int i=0; i<n; ++) {
+    g_value_unset(self->properties+i);
+  }
+}
+
+static void
+finalize (GObject *gobject)
+{
+  JsonOp *self = (JsonOp *)(gobject);
+  JsonOpClass *json_op_class = (JsonOpClass *)G_OBJECT_GET_CLASS(self);
+
+  g_hash_table_unref (self->nodes);
+
+  const guint n = json_op_class->no_props+1;
+  for (int i=0; i<n; ++) {
+    g_value_unset(self->properties+i);
+  }
+
+  G_OBJECT_GET_CLASS(gobject)->finalize (gobject);
+}
+
+static void
 json_op_class_init (gpointer klass, gpointer class_data)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -343,14 +419,15 @@ json_op_class_init (gpointer klass, gpointer class_data)
   object_class->set_property = set_property;
   object_class->get_property = get_property;
   object_class->constructor  = constructor;
+  object_class->finalize = finalize;
 
   operation_class->attach = attach;
 
-  install_properties(json_op_class);
+  json_op_class->no_props = install_properties(json_op_class);
 
   // FIXME: unharcode, look up in properties
   gegl_operation_class_set_keys (operation_class,
-    "name",        "gegl:dropshadow2",
+    "name",        "gegl:greyy",
     "categories",  "effects:light",
     "description", "Creates a dropshadow effect on the input buffer",
     NULL);
@@ -360,14 +437,9 @@ json_op_class_init (gpointer klass, gpointer class_data)
 static void
 json_op_class_finalize (JsonOpClass *self)
 {
-}     
 
-
-static void
-json_op_init (JsonOp *self)
-{
-  self->nodes = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_object_unref); // FIXME: free
 }
+
 
 static GType                                                             
 json_op_register_type (GTypeModule *type_module, const gchar *name, gpointer klass_data)                    
@@ -408,7 +480,7 @@ json_op_register_type_for_file (GTypeModule *type_module, const gchar *filepath)
         g_assert(root_node);
         g_print("%s: %p\n", __PRETTY_FUNCTION__, root_node);
         // FIXME: unhardoce name, look up in json structure, fallback to basename
-        ret = json_op_register_type(type_module, "dropshadow_json", root);
+        ret = json_op_register_type(type_module, "grey_json", root);
     }
 
 //    g_object_unref(parser);
@@ -421,7 +493,8 @@ static void
 json_register_operations(GTypeModule *module)
 {
     // FIXME: unhardcode, follow GEGL_PATH properly
-    json_op_register_type_for_file (module, JSON_OP_DIR "/dropshadow2.json");
+//    json_op_register_type_for_file (module, JSON_OP_DIR "/dropshadow2.json");
+    json_op_register_type_for_file (module, JSON_OP_DIR "/grey2.json");
 }
 
 

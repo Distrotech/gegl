@@ -625,6 +625,9 @@ process (GeglOperation       *operation,
   gboolean      horizontal_irr;
   gboolean      vertical_irr;
 
+  o->std_dev_x = 100.0;
+  o->std_dev_y = 100.0;
+
   rect.x      = result->x - op_area->left;
   rect.width  = result->width + op_area->left + op_area->right;
   rect.y      = result->y - op_area->top;

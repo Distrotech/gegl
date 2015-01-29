@@ -25,6 +25,8 @@ op_LTLIBRARIES =    \
 	gblur-1d.la \
 	hstack.la \
 	ink-simulator.la \
+	insta-1977.la \
+	insta-brannan.la \
 	kuwahara.la \
 	mandelbrot.la \
 	rawbayer-load.la \
